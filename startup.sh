@@ -84,14 +84,14 @@ fi
 #
 # Add backports if it doesn't exist
 #
-release=$(lsb_release -a 2>/dev/null | grep "^Codename:" | cut -f 2)
-if [ ${release} ] && [ ! -f /etc/apt/sources.list.d/backports.list ]; then
-	cat > /etc/apt/sources.list.d/backports.list <<_EOF
-deb http://deb.debian.org/debian/ ${release}-backports main
-deb-src http://deb.debian.org/debian/ ${release}-backports main
-_EOF
-	echo "Backports (${release}) added to APT sources"
-fi
+#release=$(lsb_release -a 2>/dev/null | grep "^Codename:" | cut -f 2)
+#if [ ${release} ] && [ ! -f /etc/apt/sources.list.d/backports.list ]; then
+#	cat > /etc/apt/sources.list.d/backports.list <<_EOF
+#deb http://deb.debian.org/debian/ ${release}-backports main
+#deb-src http://deb.debian.org/debian/ ${release}-backports main
+#_EOF
+#	echo "Backports (${release}) added to APT sources"
+#fi
 
 ###########################################################
 #
@@ -131,7 +131,7 @@ if [ "x${unifi}" != "xinstall ok installed" ]; then
 	curl -Lfs -o /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
 	
 	echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main" > /etc/apt/sources.list.d/mongodb-org-4.2.list
-	wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 4B7C549A058F8B6B
 	
 	apt-get -qq update -y >/dev/null
 	
