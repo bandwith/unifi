@@ -131,7 +131,7 @@ if [ "x${unifi}" != "xinstall ok installed" ]; then
 	curl -Lfs -o /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
 	
 	echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main" > /etc/apt/sources.list.d/mongodb-org-4.2.list
-	curl -Lfs -o /etc/apt/trusted.gpg.d/mongodb-repo.gpg https://www.mongodb.org/static/pgp/server-4.2.asc
+	wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
 	
 	apt-get -qq update -y >/dev/null
 	
