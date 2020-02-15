@@ -130,7 +130,7 @@ if [ "x${unifi}" != "xinstall ok installed" ]; then
 	echo "deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti" > /etc/apt/sources.list.d/unifi.list
 	curl -Lfs -o /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
 	
-	echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.2 main" > /etc/apt/sources.list.d/mongodb-org-4.2.list
+	echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/3.4 main" > /etc/apt/sources.list.d/mongodb-org-3.4.list
 	apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 4B7C549A058F8B6B
 	
 	apt-get -qq update -y >/dev/null
