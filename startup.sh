@@ -116,6 +116,15 @@ if [ "x${haveged}" != "xinstall ok installed" ]; then
 		echo "Haveged installed"
 	fi
 fi
+
+# dig is in dnsutils
+dnsutils=$(dpkg-query -W --showformat='${Status}\n' dnsutils 2>/dev/null)
+if [ "x${dig}" != "xinstall ok installed" ]; then 
+	if apt-get -qq install -y dnsutils >/dev/null; then
+		echo "dnsutils installed"
+	fi
+fi
+
 certbot=$(dpkg-query -W --showformat='${Status}\n' certbot 2>/dev/null)
 if [ "x${certbot}" != "xinstall ok installed" ]; then
 if (apt-get -qq install -y -t ${release}-backports certbot >/dev/null) || (apt-get -qq install -y certbot >/dev/null); then
@@ -152,7 +161,7 @@ if [ "x${httpd}" != "xinstall ok installed" ]; then
 		cat > /etc/lighttpd/conf-enabled/10-unifi-redirect.conf <<_EOF
 \$HTTP["scheme"] == "http" {
     \$HTTP["host"] =~ ".*" {
-        url.redirect = (".*" => "https://%0:8443")
+        url.redirect = (".*" => "https://%0:443")
     }
 }
 _EOF
@@ -461,7 +470,7 @@ chmod a+x /etc/letsencrypt/renewal-hooks/deploy/unifi
 cat > /usr/local/sbin/certbotrun.sh <<_EOF
 #! /bin/sh
 extIP=\$(curl -fs -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip")
-dnsIP=\$(getent hosts ${dnsname} | cut -d " " -f 1)
+dnsIP=\$(dig +short ${dnsname})
 
 echo >> $LOG
 echo "CertBot run on \$(date)" >> $LOG
